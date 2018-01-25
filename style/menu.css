@@ -1,44 +1,44 @@
 /* FONTS */
 @font-face {
     font-family: JaffaGothicFill; 
-    src: url('./projects/ActionReplay/fonts/JaffaGothicFill.woff2') format('woff2'),
-    url('./projects/ActionReplay/fonts/JaffaGothicFill.woff') format('woff');
+    src: url('../projects/ActionReplay/fonts/JaffaGothicFill.woff2') format('woff2'),
+    url('../projects/ActionReplay/fonts/JaffaGothicFill.woff') format('woff'),
 }
 
 @font-face {
     font-family: JaffaGothicOutline; 
-    src: url('./projects/ActionReplay/fonts/JaffaGothicOutline.woff2') format('woff2'),
-    url('./projects/ActionReplay/fonts/JaffaGothicOutline.woff') format('woff');
+    src: url('../projects/ActionReplay/fonts/JaffaGothicOutline.woff2') format('woff2'),
+    url('../projects/ActionReplay/fonts/JaffaGothicOutline.woff') format('woff');
 }
 
 @font-face {
     font-family: SuisseIntl-Regular; 
-    src: url('./fonts/SuisseIntl-Regular.woff2') format('woff2'),
-         url('./fonts/SuisseIntl-Regular.woff') format('woff');
+    src: url('../fonts/SuisseIntl-Regular.woff2') format('woff2'),
+         url('../fonts/SuisseIntl-Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: SuisseIntl-RegularItalic; 
-    src: url('./fonts/SuisseIntl-RegularItalic.woff2') format('woff2'),
-         url('./fonts/SuisseIntl-RegularItalic.woff') format('woff');
+    src: url('../fonts/SuisseIntl-RegularItalic.woff2') format('woff2'),
+         url('../fonts/SuisseIntl-RegularItalic.woff') format('woff');
 } 
 
 @font-face {
     font-family: SuisseIntl-Bold; 
-    src: url('./fonts/SuisseIntl-Bold.woff2') format('woff2'),
-         url('./fonts/SuisseIntl-Bold.woff') format('woff');
+    src: url('../fonts/SuisseIntl-Bold.woff2') format('woff2'),
+         url('../fonts/SuisseIntl-Bold.woff') format('woff');
 }        
 
 @font-face {
     font-family: Suisse-Intl-Light; 
-    src: url('./fonts/Suisse-Intl-Light.woff2') format('woff2'),
-         url('./fonts/Suisse-Intl-Light.woff') format('woff');
+    src: url('../fonts/Suisse-Intl-Light.woff2') format('woff2'),
+         url('../fonts/Suisse-Intl-Light.woff') format('woff');
 }
 
 @font-face {
     font-family: SuisseIntl-LightItalic; 
-    src: url('./fonts/SuisseIntl-LightItalic.woff2') format('woff2'),
-         url('./fonts/SuisseIntl-LightItalic.woff') format('woff');
+    src: url('../fonts/SuisseIntl-LightItalic.woff2') format('woff2'),
+         url('../fonts/SuisseIntl-LightItalic.woff') format('woff');
 }
 
 
