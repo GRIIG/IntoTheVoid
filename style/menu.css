@@ -30,9 +30,9 @@
 }        
 
 @font-face {
-    font-family: Suisse-Intl-Light; 
-    src: url('../fonts/Suisse-Intl-Light.woff2') format('woff2'),
-         url('../fonts/Suisse-Intl-Light.woff') format('woff');
+    font-family: SuisseIntl-Light; 
+    src: url('../fonts/SuisseIntl-Light.woff2') format('woff2'),
+         url('../fonts/SuisseIntl-Light.woff') format('woff');
 }
 
 @font-face {
