@@ -1,0 +1,99 @@
+/* FONTS */
+@font-face {
+    font-family: JaffaGothicFill; 
+    src: url('./projects/ActionReplay/fonts/JaffaGothicFill.woff2') format('woff2'),
+    url('./projects/ActionReplay/fonts/JaffaGothicFill.woff') format('woff');
+}
+
+@font-face {
+    font-family: JaffaGothicOutline; 
+    src: url('./projects/ActionReplay/fonts/JaffaGothicOutline.woff2') format('woff2'),
+    url('./projects/ActionReplay/fonts/JaffaGothicOutline.woff') format('woff');
+}
+
+@font-face {
+    font-family: SuisseIntl-Regular; 
+    src: url('./fonts/SuisseIntl-Regular.woff2') format('woff2'),
+         url('./fonts/SuisseIntl-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: SuisseIntl-RegularItalic; 
+    src: url('./fonts/SuisseIntl-RegularItalic.woff2') format('woff2'),
+         url('./fonts/SuisseIntl-RegularItalic.woff') format('woff');
+} 
+
+@font-face {
+    font-family: SuisseIntl-Bold; 
+    src: url('./fonts/SuisseIntl-Bold.woff2') format('woff2'),
+         url('./fonts/SuisseIntl-Bold.woff') format('woff');
+}        
+
+@font-face {
+    font-family: Suisse-Intl-Light; 
+    src: url('./fonts/Suisse-Intl-Light.woff2') format('woff2'),
+         url('./fonts/Suisse-Intl-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: SuisseIntl-LightItalic; 
+    src: url('./fonts/SuisseIntl-LightItalic.woff2') format('woff2'),
+         url('./fonts/SuisseIntl-LightItalic.woff') format('woff');
+}
+
+
+/* MENU */        
+body {
+    font-family: SuisseIntl-Regular;
+    margin: 0;
+    padding:0;
+    background-color: #000000;
+    color: white;
+}
+
+#menu {
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    line-height: 40px;
+}
+
+#menu > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#menu img {
+    height:100%;
+    width: auto;
+    padding-left: 20;
+
+}
+
+h1 {
+    font-family: SuisseIntl-Bold;
+    display: block;
+    font-size: 30px;
+    color:white;
+    margin: 0;
+    padding-left: 20;
+    text-align: center;
+    float: left;
+}  
+
+h2 {
+    display: block;
+    font-size: 15px;
+    color:white;
+    margin: 0;
+    padding-right: 20;
+    text-align: center;
+    float:right;
+    vertical-align: middle;
+}
+
+h2:hover {
+    text-decoration: line-through;
+}

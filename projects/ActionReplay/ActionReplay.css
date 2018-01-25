@@ -1,0 +1,139 @@
+/* FONTS */
+@font-face {
+    font-family: JaffaGothicFill; 
+    src: url('./fonts/JaffaGothicFill.woff2') format('woff2'),
+    url('./fonts/JaffaGothicFill.woff') format('woff');
+}
+
+@font-face {
+    font-family: JaffaGothicOutline; 
+    src: url('./fonts/JaffaGothicOutline.woff2') format('woff2'),
+    url('./fonts/JaffaGothicOutline.woff') format('woff');
+}
+
+/* MODAL */
+
+/* Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.9); 
+    cursor: default;
+}
+
+/*Content Box */
+.modal-content {
+    background-color: black;
+    margin: 0 auto;
+    margin-top: 10%;
+    padding: 10px;
+    border: 2px solid white;
+    width: 70%;
+    color: white;
+    font-size: 17px;
+    text-align: left;
+}
+
+/* Header */
+.modal-header {
+    font-family: JaffaGothicOutline;
+    padding 2px;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+} 
+
+/* Body */
+.modal-body {
+    padding: 0 30;
+    display: flex;
+    align-items: center;
+/*            flex: 1;*/
+
+}
+
+.modal-text{
+    flex: 1;
+    padding-right: 5%;
+}
+
+.modal-img{
+    flex: 1;
+    position: relative;
+}
+
+/* Image */
+.imgSlide {
+/*            display: block;*/
+    display:none;
+    margin: 0 auto;
+    width: 90%;
+    height: auto;
+}
+
+/* Next and previous buttons */
+
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 48%;
+    width: auto;
+    font-weight: bold;
+    transition: 0.6s ease;
+    left: 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+    left: auto;
+    right: 0;
+}
+
+/* Instructions */
+#instructions {
+    font-family: SuisseIntl-Light;
+    font-size: 13px;
+}
+
+/*Download bar */
+#download-bar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+/* Listen bar */
+#listen-bar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+/* Links  */
+.link {
+    color: white;
+    margin: 10 50;
+}
+
+/*Modal Close Button */
+.close {
+    margin:0;
+    margin-top: -15px;
+    padding:0;
+    color: grey;
+    float: right;
+    font-size: 28px;
+}
+.close:hover, .close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+

@@ -1,0 +1,636 @@
+<html>
+<head>
+    
+<!--    <meta charset="utf-8">-->
+    
+<!--
+     For Google 
+    <meta name="description" content="">
+-->
+    
+<!--
+     For Facebook 
+    <meta property="og:title" content="WWW.ORK">
+    <meta property="og:type" content="article" >
+    <meta property="og:image" content="">
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="">
+-->
+    
+<!--
+    <title>WWW.ORK</title>
+    <link rel="shortcut icon" href="icon.jpg" type="image/jpg">
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="">
+-->
+    
+    
+    <title>INTO THE VOID</title>
+    <meta charset="utf-8">
+<!--STAN : mettre autre chose dans head? Voir MLAV -->
+    
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/loaders/OBJLoader.js"></script>
+    
+    
+    <!--SOBEL FX JS-->
+    <script src="js/shaders/CopyShader.js"></script>
+    <script src="js/shaders/LuminosityShader.js"></script>
+    <script src="js/shaders/SobelOperatorShader.js"></script>
+
+    <script src="js/postprocessing/EffectComposer.js"></script>
+    <script src="js/postprocessing/RenderPass.js"></script>
+    <script src="js/postprocessing/ShaderPass.js"></script>
+    
+    <script src="js/effects/ParallaxBarrierEffect.js"></script>
+        
+    
+    <style>
+        
+        @font-face {
+            font-family: JaffaGothicFill; 
+            src: url('JaffaGothicFill.woff2') format('woff2'),
+                 url('JaffaGothicFill.woff') format('woff');
+        }
+        
+        @font-face {
+            font-family: JaffaGothicOutline; 
+            src: url('JaffaGothicOutline.woff2') format('woff2'),
+                 url('JaffaGothicOutline.woff') format('woff');
+        }
+                
+        body {
+            font-family: JaffaGothicFill;
+            margin: 0;
+            padding:0;
+            background-color: #000000;
+        }
+    
+        #menu {
+            margin: 0;
+            padding: 0;
+            height: 40px;
+        }
+        
+        h1 {
+            font-size: 30px;
+            color:white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        /*Modal Background */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; 
+/*            padding-top: 0;*/
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9) 
+        }
+        
+        /*Modal Content Box */
+        .modal-content {
+            background-color: black;
+            margin: 15% auto;
+            padding: 10px;
+            border: 2px solid white;
+            width: 70%;
+/* A REMETTRE QUAND TEXTE  height: 50%;*/
+        }
+        
+        /* Modal Header */
+        .modal-header {
+            font-family: JaffaGothicOutline;
+            padding 2px;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+        } 
+        
+        /* Modal Body */
+        .modal-body {
+            padding: 0 30;
+            color: white;
+            font-size: 15px;
+            text-align: left;
+        }
+        
+        /*Download bar */
+        #download-bar {
+            margin:auto;
+            text-align: center;
+            padding: 30;
+        }
+        /* Links 1 */
+        .link1 {
+            color: white;
+        }
+        
+        /* Links 2 */
+        .link2 {
+            color: white;
+            margin: 10 50;
+        }
+        
+        /*Modal Close Button */
+        .close {
+            margin:0;
+            margin-top: -15px;
+            padding:0;
+            color: grey;
+            float: right;
+            font-size: 28px;
+        }
+        .close:hover, .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+
+    <!-- MENU -->
+    <nav id="menu">
+        
+        <h1>INTO THE VOID</h1>
+    
+    </nav>
+
+
+    <!-- DOWNLOAD MODAL -->
+    <div id="downloadModal" class="modal">
+    
+        <div class="modal-content">
+            
+            <span class="close"> &times; </span>
+                        
+            <div class="modal-header">
+
+                <p> GRIG - ACTION REPLAY </p>
+            </div>
+            
+            <div class="modal-body">
+                
+<!--   ECRIRE DESCRIPTION  -->
+                <p> PLEASE COME BACK LATER FOR DESCRIPTION </p>
+ 
+<!-- RAJOUTER IMAGE OU VIDEO -->
+                
+                <a class="link1" href=""> LISTEN </a>
+                
+<!--   ECRIRE DESCRIPTION VR ET INSTRUCTION (LANCEMENT + OPTIONS + RESYNC )            -->
+                <p> VR EXPERIMENT </p>
+                
+                
+                <p id='download-bar'> 
+                    <a class="link2" href="download/ActionReplay/ActionReplay_Windows_1.0.zip"> WINDOWS </a> 
+                    <a class="link2" href="download/ActionReplay/ActionReplay_Mac_1.0.zip"> MAC </a> 
+                    <a class="link2" href="download/ActionReplay/ActionReplay_Rift_1.0.zip"> RIFT </a>
+                    <a class="link2" href="download/ActionReplay/ActionReplay_Vive_1.0.zip"> VIVE </a>
+                </p>
+                
+            </div>
+            
+                        
+        </div>
+    </div>
+    
+
+    <!-- THREE JS SCRIPT -->
+	<script>
+
+        if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+        
+        // THREEJS VARIABLES 
+        var container, stats;
+        var camera, scene, raycaster, renderer;
+
+        var bgColor = 0x000000;
+        var memorycardMesh, wallMesh, textMesh;
+        var staticMeshes, materials = {};
+
+
+        // SOBEL EFFECT
+        var composer;
+        var effectSobel;
+        var sobelFX = {enabled: false};
+
+
+        // OTHER VARIABLES
+        var mouse;
+        var mouseX = 0, mouseY = 0;
+        
+        var menuHeight = document.getElementById("menu").clientHeight;
+        
+        var canvasHeight = window.innerHeight - menuHeight;
+        var canvasWidth = window.innerWidth;
+        var windowHalfX = canvasWidth / 2;
+        var windowHalfY = canvasHeight / 2;
+        
+        var modal = document.getElementById('downloadModal');
+        var span = document.getElementsByClassName("close")[0];
+        
+        span.addEventListener("click",close);
+        modal.addEventListener("click",close);
+
+
+        init();
+        mat();
+        static();
+        animate();
+
+
+        // INITIALISATION FUNCTION - LOAD TOOLS AND SCENE
+        function init() {
+
+            container = document.createElement('div');
+            document.body.appendChild(container);
+            
+            //  SCENE //
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color ( bgColor );
+
+            // CAMERA //
+            camera = new THREE.PerspectiveCamera(70, canvasWidth / canvasHeight, 0.1, 30000);
+            camera.position.set(0, -400, 1200); 
+
+            
+            
+            //  LIGHT //
+            
+            // AMBIENT
+//            var ambientLight = new THREE.AmbientLight( 0xcccccc, 1 );
+//            scene.add( ambientLight );
+            
+            
+            // HEMI
+//            var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1 );
+//            hemiLight.groundColor.setHSL( 0.1, 0, 0.5 );
+//            hemiLight.position.set( 0, 200, 0 );
+//            scene.add( hemiLight );
+            
+//            hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
+//            scene.add( hemiLightHelper );
+            
+            //POINT LIGHT
+            var pointLight = new THREE.PointLight( 0xffffff, 1, 5000 );
+            pointLight.position.set (0,-50,0);
+//            light4.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffaa00 } ) ) );
+            scene.add( pointLight );
+
+            //DIRECTIONAL
+//            var directionalLight = new THREE.DirectionalLight (0xffffff,2);
+//            directionalLight.position.set ( -500, 600, 1000 );
+//            scene.add(directionalLight);
+            
+            
+            // SPOT
+//            var spotLight = new THREE.SpotLight( 0xffffff, 100000 );
+//            spotLight.position.set( 0, 1000, 0 );
+//            spotLight.angle = Math.PI / 4;
+//            spotLight.penumbra = 0.05;
+//            spotLight.decay = 2;
+//            spotLight.distance = 200;            
+
+
+            //RAYCASTER
+            raycaster = new THREE.Raycaster();
+            raycaster.linePrecision = 100 ;
+            mouse = new THREE.Vector2();
+            
+            
+            //RENDERER 
+
+            renderer = new THREE.WebGLRenderer( {antialias: true});
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(canvasWidth, canvasHeight);
+            document.body.appendChild(renderer.domElement);
+            
+            
+            //EVENT LISTENERS 
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('mousedown', onDocumentMouseDown, false);
+            window.addEventListener('resize', onWindowResize, false);
+
+            // POSTPROCESSING
+            initPostprocessing();
+
+        }
+
+        //materials function - create materials library
+        function mat(){
+
+            materials = {
+                
+				"Black": 	new THREE.MeshLambertMaterial( { color: 0x000000, combine: THREE.MixOperation, reflectivity: 0.15 } ),
+				"White":	new THREE.MeshLambertMaterial( { color: 0xffffff, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+                
+				"Carmine": 	new THREE.MeshPhongMaterial( { color: 0x770000, specular:0xffaaaa, combine: THREE.MultiplyOperation } ),
+				"Gold": 	new THREE.MeshPhongMaterial( { color: 0xaa9944, specular:0xbbaa99, shininess:50, combine: THREE.MultiplyOperation } ),
+				"Bronze":	new THREE.MeshPhongMaterial( { color: 0x150505, specular:0xee6600, shininess:10, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+				"Chrome": 	new THREE.MeshPhongMaterial( { color: 0xffffff, specular:0xffffff, combine: THREE.MultiplyOperation } ),
+                
+				"Black metal":	new THREE.MeshLambertMaterial( { color: 0x222222, combine: THREE.MultiplyOperation } ),
+				"Pure chrome": 	new THREE.MeshLambertMaterial( { color: 0xffffff} ),
+				"Dark chrome":	new THREE.MeshLambertMaterial( { color: 0x444444} ),
+				"Darker chrome":new THREE.MeshLambertMaterial( { color: 0x222222} ),
+                
+				"Black glass": 	new THREE.MeshLambertMaterial( { color: 0x101016, opacity: 0.975, transparent: true } ),
+				"Dark glass":	new THREE.MeshLambertMaterial( { color: 0x101046, opacity: 0.25, transparent: true } ),
+				"Blue glass":	new THREE.MeshLambertMaterial( { color: 0x668899, opacity: 0.75, transparent: true } ),
+				"Light glass":	new THREE.MeshBasicMaterial( { color: 0x223344, opacity: 0.25, transparent: true, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+                
+				"Fullblack rough":	new THREE.MeshLambertMaterial( { color: 0x000000 } ),
+				"Black rough":		new THREE.MeshLambertMaterial( { color: 0x050505 } ),
+				"Darkgray rough":	new THREE.MeshLambertMaterial( { color: 0x090909 } ),
+                
+				"Darkgray shiny":	new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x050505 } ),
+				"Gray shiny":		new THREE.MeshPhongMaterial( { color: 0x050505, shininess: 20 } ),
+                
+                "Test":             new THREE.MeshPhongMaterial( { color: 0x555555, specular: 0x111111, shininess: 50 }  ),
+                "Normal":           new THREE.MeshNormalMaterial(),
+                "Wireframe":        new THREE.MeshBasicMaterial( { color: 0xffaa00, wireframe: true }),
+                "Depth":            new THREE.MeshDepthMaterial(),
+                "Emissive 1":       new THREE.MeshLambertMaterial( { color: 0xffffff, emissive: 0xffffff } ),
+                "Emissive 2":       new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0x080808, shininess: 10, opacity: 0.9, transparent: true } ),
+                "Metal test":       new THREE.MeshStandardMaterial( {
+                    color : 0x0a0a0a,
+                    roughness : 0.5,
+                    metalness : 1,
+                }),
+                
+                "360_hall": new THREE.MeshBasicMaterial( {
+                    map: new THREE.TextureLoader().load( "./img/ActionReplay/360_hall.jpg")
+                }), 
+                "360_hall": new THREE.MeshBasicMaterial( {
+                    map: new THREE.TextureLoader().load( "./img/ActionReplay/360_hall.jpg")
+                }), 
+                
+                
+                
+                
+            }    
+            
+        }
+
+   
+
+        // static function - add geometry to scene
+        function static(){
+
+            staticMeshes = new THREE.Group();
+
+
+            // --- ADD MEMORYCARD ---
+
+            var loader = new THREE.OBJLoader ();
+            loader.load ( 
+                // Resource URL
+                "./obj/memorycard.obj", 
+                //Function when resource is loaded
+                function (loadedObject) {
+
+                    var geometry = loadedObject.children[0].geometry;
+                    geometry.center();
+
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Gold" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Chrome" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Bronze" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Dark Chrome" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Light glass" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Black rough" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "White" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Wireframe" ]);
+                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Test" ]);
+//                    memorycardMesh = new THREE.Mesh(geometry, materials [ "Metal test" ]);
+                    memorycardMesh.scale.multiplyScalar (0.8);
+                    memorycardMesh.rotation.set(-0.8,-0.7854,0.4);
+                    memorycardMesh.position.set(0,50,0);
+                    staticMeshes.add (memorycardMesh);
+            }); 
+
+            // end add memorycard //
+
+
+            // ---- ADD WALL  ----
+
+            loader.load ( 
+                // Resource URL
+                "./obj/TARwall.obj", 
+                //Function when resource is loaded
+                function (group) {
+
+                    var geometry = group.children[0].geometry;
+                    geometry.center();
+
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Darkgray shiny" ]);
+                    wallMesh = new THREE.Mesh(geometry, materials [ "Black rough" ]);
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Wireframe" ]);
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Black metal" ]);
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Black glass" ]);
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Darker chrome" ]);
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Metal test" ]);
+//                    wallMesh = new THREE.Mesh(geometry, materials [ "Black" ]);
+                    wallMesh.scale.multiplyScalar(10);
+                    wallMesh.rotation.set(0,-1.5708,0);
+                    wallMesh.position.set(-1300,0,-5000);
+                    staticMeshes.add (wallMesh);
+            }); 
+            // end add wall
+
+
+            // ---- ADD TEXT  ----
+            loader.load ( 
+                // Resource URL
+                "./obj/actionreplayOutline.obj", 
+//                "./obj/actionreplaySrf.obj", 
+                //Function when resource is loaded
+                function (group) {
+
+                    var geometry = group.children[0].geometry;
+                    geometry.center();
+
+                    textMesh = new THREE.Mesh(geometry, materials [ "White" ]);
+                    textMesh = new THREE.Mesh(geometry, materials [ "Emissive 1" ]);
+                    textMesh.scale.multiplyScalar(150);
+                    textMesh.rotation.set(1.5708,0,0);
+                    textMesh.position.set(0,-300, 0);
+                    staticMeshes.add (textMesh);               
+                
+            }); //end add text
+            
+            
+            // --- ADD CUBEMAP SPHERE ---
+            var sphere = new THREE.SphereBufferGeometry (5000,60,40);
+            sphere.scale (-1, 1, 1);
+            var sphereMesh = new THREE.Mesh(sphere, materials ["360_hall"]);
+            staticMeshes.add (sphereMesh);
+            
+            
+            // ADD ALL MESHES TO SCENE
+            scene.add( staticMeshes );
+
+        }
+
+
+
+        // Postprocessing initialization function
+        function initPostprocessing() {
+            
+            
+            //SOBEL 
+            
+            composer = new THREE.EffectComposer (renderer);
+            var renderPass = new THREE.RenderPass (scene, camera);
+            composer.addPass (renderPass);
+            
+            //color to grayscale
+            var effectGrayScale = new THREE.ShaderPass (THREE.LuminosityShader);
+            composer.addPass (effectGrayScale);
+            
+            // sobel operator
+            effectSobel = new THREE.ShaderPass( THREE.SobelOperatorShader );
+            effectSobel.renderToScreen = true;
+            effectSobel.uniforms.resolution.value.x = canvasWidth;
+            effectSobel.uniforms.resolution.value.y = canvasHeight;
+            composer.addPass( effectSobel );
+            
+            
+            
+            
+        }
+
+
+        //animation function - animate the scene
+        function animate() {
+
+            requestAnimationFrame( animate );
+
+            //Camera animation
+            camera.position.x += ( mouseX - camera.position.x ) * .05; //0.05 is mouvement amplitude
+            camera.position.y += ( - mouseY - camera.position.y ) * .05; //0.05 is mouvement amplitude
+            camera.lookAt (scene.position);
+
+            // Geometry animation
+            memorycardMesh.rotation.x += 0.005;
+
+            render();
+        }
+
+        //rendering function
+        function render() {
+
+            
+
+            if (sobelFX.enabled) {
+                
+                composer.render();
+                
+                
+            } else {
+
+                renderer.clear();
+                renderer.render( scene, camera );
+            }
+
+
+        }
+
+
+
+        // window resize function
+        function onWindowResize() {
+
+            canvasHeight = window.innerHeight - menuHeight;
+            canvasWidth = window.innerWidth;
+            windowHalfX = canvasWidth / 2;
+            windowHalfY = canvasHeight / 2;
+            
+            camera.aspect = canvasWidth / canvasHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize (canvasWidth, canvasHeight);            
+            
+            
+            //SOBEL
+                
+            composer.setSize (canvasWidth, canvasHeight);
+            
+            effectSobel.uniforms.resolution.value.x = canvasWidth;
+            effectSobel.uniforms.resolution.value.y = canvasHeight;
+            
+
+        }    
+         
+
+        //Mouse movement input function
+        function onDocumentMouseMove(event) {
+                
+            // Set camera amplitude
+            mouseX = (event.clientX - windowHalfX)*2;
+            mouseY = (event.clientY - windowHalfY)*2;
+                
+
+            // Change mouse cursor when hover
+            mouse.x = ( event.clientX / canvasWidth ) * 2 - 1;
+			mouse.y = - ( (event.clientY - menuHeight)/ canvasHeight ) * 2 + 1;
+
+            raycaster.setFromCamera ( mouse, camera );
+
+            var intersects = raycaster.intersectObject (textMesh);
+
+            if ( intersects.length > 0 ) {
+                $('html,body').css('cursor', 'pointer');
+            } else {
+                $('html,body').css('cursor', 'default');
+            }
+
+        }
+
+        // Mouse click input function - when user clicks on download, open the popup
+        function onDocumentMouseDown(event) {
+
+            event.preventDefault();
+
+            mouse.x = ( event.clientX / canvasWidth ) * 2 - 1;
+			mouse.y = - ( (event.clientY - menuHeight)/ canvasHeight ) * 2 + 1;
+
+            // Find raycaster intersections
+
+            raycaster.setFromCamera ( mouse, camera );
+
+            var intersects2 = raycaster.intersectObject (textMesh);
+
+            if ( intersects2.length > 0 ) {
+
+                //Action on click 
+                modal.style.display = "block";
+            }  
+        }
+        
+        //When the user clicks on close (x), close the modal
+        function close() {
+            modal.style.display = "none";
+        }
+        
+    </script>
+
+
+</body>
+</html>

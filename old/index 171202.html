@@ -1,0 +1,761 @@
+<html>
+<head>
+    <title>INTO THE VOID</title>
+    <meta charset="utf-8">
+<!--STAN : mettre autre chose dans head? Voir MLAV -->
+    
+    
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- STAN : OK de récupérer jquery ici? -->
+    <script src="js/loaders/OBJLoader.js"></script>
+    
+    
+    <!--GODRAYS FX JS-->
+    <script src="js/shaders/ShaderGodRays.js"></script>
+<!-- STAN : OK de mettre ShaderGodRay ici? -->
+    
+    
+    <!--SOBEL FX JS-->
+    <script src="js/shaders/CopyShader.js"></script>
+    <script src="js/shaders/LuminosityShader.js"></script>
+    <script src="js/shaders/SobelOperatorShader.js"></script>
+
+    <script src="js/postprocessing/EffectComposer.js"></script>
+    <script src="js/postprocessing/RenderPass.js"></script>
+    <script src="js/postprocessing/ShaderPass.js"></script>
+    
+<!--    STAN : OK de mettre tous scripts ici? Pas plutôt dans body?-->
+    
+    
+    <style>
+        
+        @font-face {
+            font-family: JaffaGothicFill; 
+            src: url('JaffaGothicFill.woff2') format('woff2'),
+                 url('JaffaGothicFill.woff') format('woff');
+        }
+        @font-face {
+            font-family: JaffaGothicOutline; 
+            src: url('JaffaGothicOutline.woff2') format('woff2'),
+                 url('JaffaGothicOutline.woff') format('woff');
+        }
+        
+/*STAN : ou mettre polices? dans dossier fonts? */
+        
+        body {
+            font-family: JaffaGothicFill;
+            margin: 0;
+            padding:0;
+            background-color: #000000;
+        }
+        
+        canvas { 
+            width: 100%; 
+            height: 100% 
+        }
+        
+        h1 {
+            font-size: 30px;
+            color:white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        /*Modal Background */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; 
+/*            padding-top: 0;*/
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9) 
+        }
+        
+        /*Modal Content Box */
+        .modal-content {
+            background-color: black;
+            margin: 15% auto;
+            padding: 10px;
+            border: 2px solid white;
+            width: 70%;
+/* A REMETTRE QUAND TEXTE  height: 50%;*/
+        }
+        
+        /* Modal Header */
+        .modal-header {
+            font-family: JaffaGothicOutline;
+            padding 2px;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+        } 
+        
+        /* Modal Body */
+        .modal-body {
+            padding: 0 30;
+            color: white;
+            font-size: 15px;
+            text-align: left;
+        }
+        
+        /*Download bar */
+        #download-bar {
+            margin:auto;
+            text-align: center;
+            padding: 30;
+        }
+        /* Links 1 */
+        .link1 {
+            color: white;
+        }
+        
+        /* Links 2 */
+        .link2 {
+            color: white;
+            margin: 10 50;
+        }
+        
+        /*Modal Close Button */
+        .close {
+            margin:0;
+            padding:0;
+            color: grey;
+            float: right;
+            font-size: 28px;
+        }
+        .close:hover, .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+
+    <!-- TITLE -->
+    <h1>INTO THE VOID</h1>
+
+    <!-- DOWNLOAD MODAL -->
+    <div id="downloadModal" class="modal">
+    
+        <div class="modal-content">
+            
+            <span class="close"> &times; </span>
+            
+<!--  STAN : comment monter croix?? -->
+            
+            <div class="modal-header">
+
+                <p> GRIG - ACTION REPLAY </p>
+            </div>
+            
+            <div class="modal-body">
+                
+<!--   ECRIRE DESCRIPTION  -->
+                <p> PLEASE COME BACK LATER FOR DESCRIPTION </p>
+ 
+<!-- RAJOUTER IMAGE OU VIDEO -->
+                
+                <a class="link1" href=""> LISTEN </a>
+                
+<!--   ECRIRE DESCRIPTION VR ET INSTRUCTION (LANCEMENT + OPTIONS + RESYNC )            -->
+                <p> VR EXPERIMENT </p>
+                
+                
+                <p id='download-bar'> <a class="link2" href=""> Windows </a> <a class="link2" href=""> Mac </a> <a class="link2" href=""> Vive </a></p>
+                
+            </div>
+            
+                        
+        </div>
+    </div>
+    
+
+    <!-- THREE JS SCRIPT -->
+	<script>
+
+        if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+        
+        // THREEJS VARIABLES 
+        var container, stats;
+        var camera, scene, raycaster, renderer;
+
+        var bgColor = 0x000001;
+//A CHANGER
+        var sunPosition = new THREE.Vector3(500,1000,-1000);
+        var sunColor = 0xffee00;
+// A CHANGER
+        var memorycardMesh;
+        var lineText;
+        var staticMeshes, materials = {};
+
+
+        // GODRAYS
+        
+        var godrays = {enabled : false};
+        var materialDepth;
+        var screenSpacePosition = new THREE.Vector3();
+        var sunIntensity = 1;
+//A CHANGER
+
+        // SOBEL EFFECT
+        var composer;
+        var effectSobel;
+        var sobelFX = {enabled: true};
+
+
+        
+        // OTHER VARIABLES
+        var mouse;
+        var mouseX = 0, mouseY = 0;
+        var windowHalfX = window.innerWidth / 2;
+        var windowHalfY = window.innerHeight / 2;
+        
+        var modal = document.getElementById('downloadModal');
+        var span = document.getElementsByClassName("close")[0];
+        
+        span.addEventListener("click",close);
+        modal.addEventListener("click",close);
+
+
+        init();
+        mat();
+        static();
+        animate();
+
+
+        // initialisation function - load tools and scene
+        function init() {
+
+            container = document.createElement('div');
+            document.body.appendChild(container);
+            
+            //  SCENE //
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color ( bgColor );
+
+            // CAMERA //
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 30000);
+            camera.position.set(0, -400, 1200); 
+
+            
+            
+            //  LIGHT //
+
+//                var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
+//                scene.add( ambientLight );
+//            
+//            
+//                var pointLight = new THREE.PointLight( 0xffffff, 0.1 );
+//                pointLight.position.y = 500 ;
+//                scene.add( pointLight );
+//
+//             var directionalLight = new THREE.DirectionalLight (sunColor,2);
+//             directionalLight.position.set ( sunPosition );
+//             scene.add(directionalLight);
+////
+//             var pointLight = new THREE.PointLight( 0xffffff, 0.1);
+//             pointLight.position.z = -500 ;
+//             scene.add (pointLight);
+
+//             var pointLight2 = new THREE.PointLight( 0xff6666, 1 );
+//             camera.add( pointLight2 );
+
+//             var pointLight3 = new THREE.PointLight( 0x171717, 0.5 );
+//             pointLight3.position.x = - 1000;
+//             pointLight3.position.z = -1000;
+//             scene.add( pointLight3 );
+
+
+            //RAYCASTER
+            raycaster = new THREE.Raycaster();
+            raycaster.linePrecision = 100 ;
+            mouse = new THREE.Vector2();
+            
+            //RENDERER 
+
+            renderer = new THREE.WebGLRenderer( {antialias: true});
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            
+            
+            //EVENT LISTENERS 
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('mousedown', onDocumentMouseDown, false);
+            window.addEventListener('resize', onWindowResize, false);
+
+            // POSTPROCESSING
+            initPostprocessing();
+
+
+//// OVERLAY TEXT
+//            var title = document.createElement( 'div' );
+//				title.style.position = 'absolute';
+//				title.style.top = '50px';
+//				title.style.width = '100%';
+//				title.style.textAlign = 'center';
+//                title.style.color = 'white';
+//				title.textContent = 'ACTION REPLAY';
+//				container.appendChild( title );
+//
+        }
+
+        //materials function - create materials library
+        function mat(){
+
+            
+            // TEST 
+            materials.material1 = new THREE.MeshBasicMaterial( { color: 0xb266d1 } );
+            materials.material2 = new THREE.MeshPhongMaterial( { color: 0x666666, specular: 0xffffff, shininess: 200 });
+            materials.material3 = new THREE.MeshLambertMaterial( { color: 0x666666 } );
+            materials.material4 = new THREE.MeshNormalMaterial();
+            materials.material5 = new THREE.MeshBasicMaterial( { color: 0xffaa00, wireframe: true });
+            materials.material5 = new THREE.MeshDepthMaterial();
+            materials.material6 = new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0x404040 } );
+            materials.material7 = new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0x080808, shininess: 10, opacity: 0.9, transparent: true } );
+            materials.material8 = new THREE.MeshStandardMaterial( {
+                    color : 0x888888,
+                    roughness : 0.5,
+                    metalness : 1,
+            });
+
+            
+            // GODRAY
+            materialDepth = new THREE.MeshDepthMaterial();
+            
+            
+        }
+
+   
+
+        // static function - add geometry to scene
+        function static(){
+
+            staticMeshes = new THREE.Group();
+
+
+            // --- ADD MEMORYCARD ---
+
+            var loader = new THREE.OBJLoader ();
+            loader.load ( 
+                // Resource URL
+                "./obj/memorycard.obj", 
+                //Function when resource is loaded
+                function (loadedObject) {
+
+                    var geometry = loadedObject.children[0].geometry;
+                    geometry.center();
+
+                    memorycardMesh = new THREE.Mesh(geometry, materials.material1);
+                    memorycardMesh.scale.multiplyScalar (0.8);
+                    memorycardMesh.rotation.set(-0.8,-0.7854,0.4);
+                    memorycardMesh.position.set(0,50,0);
+                    staticMeshes.add (memorycardMesh);
+            }); 
+
+            // end add memorycard //
+
+
+            // ---- ADD WALL  ----
+
+            loader.load ( 
+                // Resource URL
+                "./obj/TARwall.obj", 
+                //Function when resource is loaded
+                function (group) {
+
+                    var geometry = group.children[0].geometry;
+                    geometry.center();
+
+                    wallMesh = new THREE.Mesh(geometry, materials.material3);
+                    wallMesh.scale.multiplyScalar(10);
+                    wallMesh.rotation.set(0,-1.5708,0);
+                    wallMesh.position.set(-1300,0,-5000);
+                    staticMeshes.add (wallMesh);
+            }); 
+            // end add wall
+
+
+
+            scene.add( staticMeshes );
+
+
+            // ---- ADD TEXT  ----
+            var loader = new THREE.FontLoader();
+            loader.load( 
+                //Resource URL 
+                './fonts/JaffaGothicFill.json',
+
+                //function when resource is loaded
+                function ( font ) {
+
+                    var xMid,text;
+
+                    var textShape = new THREE.BufferGeometry();
+
+                    var color = 0xffffff;
+
+                    var matFont = new THREE.LineBasicMaterial({
+                        color: color,
+                        side: THREE.DoubleSide
+                    });
+
+                    var message = "ACTION REPLAY";
+
+                    var shapes = font.generateShapes (message, 100, 4 );
+// A CHANGER
+
+                    var geometry2 = new THREE.ShapeGeometry ( shapes );
+                    geometry2.computeBoundingBox();
+                    xMid = -0.5 * (geometry2.boundingBox.max.x - geometry2.boundingBox.min.x);
+                    geometry2.translate ( xMid, 0, 0 );
+
+
+                    //MAKE LINE SHAPE
+//STAN : comment faire pour train plus fin? 
+//STAN : manque traits? 
+                    
+
+                    var holeShapes = [];
+                    for ( var i = 0; i < shapes.length; i ++ ) {
+                        var shape = shapes[ i ];
+                        if ( shape.holes && shape.holes.length > 0 ) {
+                            for ( var j = 0; j < shape.holes.length; j ++ ) {
+                                var hole = shape.holes[ j ];
+                                holeShapes.push( hole );
+                            }
+                        }
+                    }
+                    shapes.push.apply( shapes, holeShapes );
+                    lineText = new THREE.Object3D();
+                    for ( var i = 0; i < shapes.length; i ++ ) {
+                        var shape = shapes[ i ];
+                        var lineGeometry = shape.createPointsGeometry();
+                        lineGeometry.translate( xMid, 0, 0 );
+                        var lineMesh = new THREE.Line( lineGeometry, matFont );
+                        lineText.add( lineMesh );
+                        
+// VOIR COMMENT FERMER LETTRES
+                    }
+                    lineText.position.set (0,-300,0);
+                    scene.add( lineText );
+                
+                
+                
+            }); //end add text function
+
+        }
+
+
+
+        // Postprocessing initialization function
+        function initPostprocessing() {
+
+            
+            // GODRAYS 
+            
+            godrays.scene = new THREE.Scene();
+
+            godrays.camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2,  window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 );
+            godrays.camera.position.z = 100;
+
+            godrays.scene.add( godrays.camera );
+
+            var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+            godrays.rtTextureColors = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, pars );
+            godrays.rtTextureDepth = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, pars );
+
+            // Aggressive downsize god-ray ping-pong render targets to minimize cost
+
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            godrays.rtTextureGodRays1 = new THREE.WebGLRenderTarget( w, h, pars );
+            godrays.rtTextureGodRays2 = new THREE.WebGLRenderTarget( w, h, pars );
+            
+            // god-ray shaders
+
+            var godraysGenShader = THREE.ShaderGodRays[ "godrays_generate" ];
+            godrays.godrayGenUniforms = THREE.UniformsUtils.clone( godraysGenShader.uniforms );
+            godrays.materialGodraysGenerate = new THREE.ShaderMaterial( {
+                
+                uniforms: godrays.godrayGenUniforms,
+                vertexShader: godraysGenShader.vertexShader,
+                fragmentShader: godraysGenShader.fragmentShader
+
+            } );
+
+            var godraysCombineShader = THREE.ShaderGodRays[ "godrays_combine" ];
+            godrays.godrayCombineUniforms = THREE.UniformsUtils.clone( godraysCombineShader.uniforms );
+            godrays.materialGodraysCombine = new THREE.ShaderMaterial( {
+
+                uniforms: godrays.godrayCombineUniforms,
+                vertexShader: godraysCombineShader.vertexShader,
+                fragmentShader: godraysCombineShader.fragmentShader
+
+            } );
+
+            var godraysFakeSunShader = THREE.ShaderGodRays[ "godrays_fake_sun" ];
+            godrays.godraysFakeSunUniforms = THREE.UniformsUtils.clone( godraysFakeSunShader.uniforms );
+            godrays.materialGodraysFakeSun = new THREE.ShaderMaterial( {
+
+                uniforms: godrays.godraysFakeSunUniforms,
+                vertexShader: godraysFakeSunShader.vertexShader,
+                fragmentShader: godraysFakeSunShader.fragmentShader
+
+            } );
+
+            godrays.godraysFakeSunUniforms.bgColor.value.setHex( bgColor );
+            godrays.godraysFakeSunUniforms.sunColor.value.setHex( sunColor );
+            
+            godrays.godrayCombineUniforms.fGodRayIntensity.value = sunIntensity;
+            
+            godrays.quad = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry( window.innerWidth, window.innerHeight ),
+                godrays.materialGodraysGenerate
+            );
+
+            godrays.quad.position.z = -9900;
+            godrays.scene.add( godrays.quad );
+            
+            
+            
+            
+            //SOBEL 
+            
+            composer = new THREE.EffectComposer (renderer);
+            var renderPass = new THREE.RenderPass (scene, camera);
+            composer.addPass (renderPass);
+            
+            //color to grayscale
+            var effectGrayScale = new THREE.ShaderPass (THREE.LuminosityShader);
+            composer.addPass (effectGrayScale);
+            
+            // sobel operator
+            effectSobel = new THREE.ShaderPass( THREE.SobelOperatorShader );
+            effectSobel.renderToScreen = true;
+            effectSobel.uniforms.resolution.value.x = window.innerWidth;
+            effectSobel.uniforms.resolution.value.y = window.innerHeight;
+            composer.addPass( effectSobel );
+            
+            
+        }
+
+
+        //animation function - animate the scene
+        function animate() {
+
+            requestAnimationFrame( animate );
+
+            //Camera animation
+            camera.position.x += ( mouseX - camera.position.x ) * .05; //0.05 is mouvement amplitude
+            camera.position.y += ( - mouseY - camera.position.y ) * .05; //0.05 is mouvement amplitude
+            camera.lookAt (scene.position);
+
+            // Geometry animation
+            memorycardMesh.rotation.x += 0.005;
+
+            render();
+        }
+
+        //rendering function
+        function render() {
+
+            if (godrays.enabled) {
+                
+//STAN : Aliasing sur lettres?
+
+                renderer.clear();
+                // Find the screenspace position of the sun
+
+                screenSpacePosition.copy(sunPosition).project(camera);
+
+                screenSpacePosition.x = (screenSpacePosition.x + 1 ) / 2;
+                screenSpacePosition.y = (screenSpacePosition.y + 1 ) / 2;
+
+                //Give it to the god-ray and sun shaders
+
+                godrays.godrayGenUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
+                godrays.godrayGenUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;
+                godrays.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
+                godrays.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;
+
+                // DRAW SCENE OBJECTS
+
+                // Colors
+
+                scene.overrideMaterial = null;
+                renderer.render( scene, camera, godrays.rtTextureColors );
+
+                //Depth
+
+                scene.overrideMaterial = materialDepth;
+                renderer.render( scene, camera, godrays.rtTextureDepth, true );
+
+                //RENDER GOD RAYS
+
+                // Maximum length of god-rays (in texture space [0,1]x[0,1])
+
+                var filterLen = 1.0;
+// A CHANGER
+
+                //Samples taken by filter
+
+                var TAPS_PER_PASS = 6.0;
+
+                // Pass order could equivalently be 3,2,1 (instend of 1,2,3), which would start with a small filter support and grow to large
+                // However, the large-to-small order produces less objectionable aliasing artifacts that appear as a glimmer along the length of the beams
+
+                // pass 1 - render into first ping-pong target
+
+                var pass = 1.0;
+                var stepLen = filterLen * Math.pow( TAPS_PER_PASS, -pass);
+
+                godrays.godrayGenUniforms[ "fStepSize" ].value = stepLen;
+                godrays.godrayGenUniforms[ "tInput" ].value = godrays.rtTextureDepth.texture;
+                godrays.scene.overrideMaterial = godrays.materialGodraysGenerate;
+                
+                renderer.render( godrays.scene, godrays.camera, godrays.rtTextureGodRays2 );
+
+                // pass 2 - render into second ping-pong target
+                
+                pass = 2.0;
+                stepLen = filterLen * Math.pow( TAPS_PER_PASS, -pass );
+               
+                godrays.godrayGenUniforms[ "fStepSize" ].value = stepLen;
+                godrays.godrayGenUniforms[ "tInput" ].value = godrays.rtTextureGodRays2.texture;
+                
+                renderer.render( godrays.scene, godrays.camera, godrays.rtTextureGodRays1  );
+               
+                // pass 3 - 1st RT
+                
+                pass = 3.0;
+                stepLen = filterLen * Math.pow( TAPS_PER_PASS, -pass );
+                
+                godrays.godrayGenUniforms[ "fStepSize" ].value = stepLen;
+                godrays.godrayGenUniforms[ "tInput" ].value = godrays.rtTextureGodRays1.texture;
+                
+                renderer.render( godrays.scene, godrays.camera , godrays.rtTextureGodRays2  );
+
+
+                // final pass - composite god-rays onto colors
+                
+                godrays.godrayCombineUniforms["tColors"].value = godrays.rtTextureColors.texture;
+                godrays.godrayCombineUniforms["tGodRays"].value = godrays.rtTextureGodRays2.texture;
+                godrays.scene.overrideMaterial = godrays.materialGodraysCombine;
+                
+                renderer.render( godrays.scene, godrays.camera );
+                
+                godrays.scene.overrideMaterial = null;
+
+            } else if (sobelFX.enabled) {
+                
+                composer.render();
+                
+            } else {
+
+                renderer.clear();
+                renderer.render( scene, camera );
+            }
+
+
+        }
+
+
+
+        // window resize function
+        function onWindowResize() {
+
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize (window.innerWidth, window.innerHeight);
+//STAN : Enlever taille menu de la fenêtre de rendu car ca fait bugger le raytracer? 
+// Ou alors dans renderer définition dans init()?
+            
+            
+            
+            
+            //SOBEL
+            
+ // A ENLEVER? 
+            
+            composer.setSize (window.innerWidth, window.innerHeight );
+            
+            effectSobel.uniforms.resolution.value.x = window.innerWidth;
+            effectSobel.uniforms.resolution.value.y = window.innerHeight;
+            
+
+        }    
+         
+
+        //Mouse movement input function
+        function onDocumentMouseMove(event) {
+
+            // Set camera amplitude
+            mouseX = (event.clientX - windowHalfX)*2;
+            mouseY = (event.clientY - windowHalfY)*2;
+
+
+
+            // Change mouse cursor when hover
+            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+            raycaster.setFromCamera ( mouse, camera );
+
+            var intersects = raycaster.intersectObjects (lineText.children);
+
+            if ( intersects.length > 0 ) {
+                $('html,body').css('cursor', 'pointer');
+            } else {
+                $('html,body').css('cursor', 'default');
+            }
+
+        }
+
+        // Mouse click input function - when user clicks on download, open the popup
+        function onDocumentMouseDown(event) {
+
+            event.preventDefault();
+            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+            // Find raycaster intersections
+
+            raycaster.setFromCamera ( mouse, camera );
+
+            var intersects2 = raycaster.intersectObjects (lineText.children);
+
+            if ( intersects2.length > 0 ) {
+
+                //Action on click 
+                modal.style.display = "block";
+            }  
+        }
+        
+        //When the user clicks on close (x), close the modal
+        function close() {
+            modal.style.display = "none";
+        }
+        
+    </script>
+
+
+</body>
+</html>
