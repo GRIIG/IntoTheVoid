@@ -2,13 +2,15 @@
 @font-face {
     font-family: JaffaGothicFill; 
     src: url('./fonts/JaffaGothicFill.woff2') format('woff2'),
-    url('./fonts/JaffaGothicFill.woff') format('woff');
+    url('./fonts/JaffaGothicFill.woff') format('woff'),
+    url('./fonts/JaffaGothicFill.ttf') format('ttf');
 }
 
 @font-face {
     font-family: JaffaGothicOutline; 
     src: url('./fonts/JaffaGothicOutline.woff2') format('woff2'),
-    url('./fonts/JaffaGothicOutline.woff') format('woff');
+    url('./fonts/JaffaGothicOutline.woff') format('woff'),
+    url('./fonts/JaffaGothicOutline.ttf') format('ttf');
 }
 
 /* MODAL */

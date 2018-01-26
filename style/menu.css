@@ -1,20 +1,9 @@
 /* FONTS */
 @font-face {
-    font-family: JaffaGothicFill; 
-    src: url('../projects/ActionReplay/fonts/JaffaGothicFill.woff2') format('woff2'),
-    url('../projects/ActionReplay/fonts/JaffaGothicFill.woff') format('woff'),
-}
-
-@font-face {
-    font-family: JaffaGothicOutline; 
-    src: url('../projects/ActionReplay/fonts/JaffaGothicOutline.woff2') format('woff2'),
-    url('../projects/ActionReplay/fonts/JaffaGothicOutline.woff') format('woff');
-}
-
-@font-face {
     font-family: SuisseIntl-Regular; 
     src: url('../fonts/SuisseIntl-Regular.woff2') format('woff2'),
-         url('../fonts/SuisseIntl-Regular.woff') format('woff');
+         url('../fonts/SuisseIntl-Regular.woff') format('woff'),
+         url('../fonts/SuisseIntl-Regular.ttf') format('ttf');
 }
 
 @font-face {
@@ -26,13 +15,15 @@
 @font-face {
     font-family: SuisseIntl-Bold; 
     src: url('../fonts/SuisseIntl-Bold.woff2') format('woff2'),
-         url('../fonts/SuisseIntl-Bold.woff') format('woff');
+         url('../fonts/SuisseIntl-Bold.woff') format('woff'),
+         url('../fonts/SuisseIntl-Bold.ttf') format('ttf');
 }        
 
 @font-face {
     font-family: SuisseIntl-Light; 
     src: url('../fonts/SuisseIntl-Light.woff2') format('woff2'),
-         url('../fonts/SuisseIntl-Light.woff') format('woff');
+         url('../fonts/SuisseIntl-Light.woff') format('woff'),
+         url('../fonts/SuisseIntl-Light.ttf') format('ttf');
 }
 
 @font-face {
@@ -44,6 +35,7 @@
 
 /* MENU */        
 body {
+    font-family: Roboto;
     font-family: SuisseIntl-Regular;
     margin: 0;
     padding:0;
