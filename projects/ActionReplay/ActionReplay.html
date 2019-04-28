@@ -1,0 +1,138 @@
+<html>
+<head>
+    
+    
+            
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113135782-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-113135782-1');
+    </script>
+    
+    
+    
+    <title>ACTION REPLAY</title>
+    <link rel="icon" href="../../img/greencircle.png">
+    <meta charset="utf-8">
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">     
+
+</head>
+    
+<body>
+
+    <!-- LIBRARIES -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="../../style/menu.css">
+    <link rel="stylesheet" href="./ActionReplay.css">
+    
+    
+    <!-- MENU -->
+    <nav id="menu">
+    
+        <ul>
+            <a href='../about/about.html'> <h2> contact </h2> </a>
+            <a href='../JsonWeatherLive/JsonWeatherLive.html'> <h2> json weather live </h2> </a>
+            <a href='./ActionReplay.html'> <h2> action replay </h2> </a>
+            <a href='../Interbeings/Interbeings.html'> <h2> interbeings </h2> </a>
+        </ul>
+    
+    </nav>
+
+    
+    
+    
+    <!-- CANVAS DIV -->
+    <div id='content'>
+    </div>
+
+    
+    <!-- DOWNLOAD MODAL -->
+    <div id="downloadModal" class="modal">
+    
+        <div class="modal-content">
+            
+            <span class="close"> &times; </span>
+                        
+            <div class="modal-header">
+
+                <p> GRIG - ACTION REPLAY </p>
+            </div>
+            
+            <div class="modal-body">
+                
+                <div class="modal-text">
+                    
+                    <p> ACTION REPLAY is a visual experience embodying the sonic realm and feelings at the origin of the eponymous EP released on TAR. In its virtual worlds, fast-paced reality encounters spatialized audio and time dilation, allowing the music to be experienced on a corporeal level.</p>
+
+                    <p id="instructions">INSTRUCTIONS : <br>
+                        0. Download appropriate version below <br>
+                        1. Unzip <br>
+                        2. Launch .exe (Windows) or .app (Mac)<br>
+                        3. Due to the Unreal Engine technical specificities, you may encounter audio/video sync issues. If that happens, just pause and resume <br>
+                        4. In case of poor performances, you can try to reduce the quality in the options menu <br>
+                        5. Headphones strongly advised for best experience
+                    </p>
+                    
+                </div>
+                
+                
+                <div class=modal-img>
+                    <img class = 'imgSlide' src = "./img/screenshots/00.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/01.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/02.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/03.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/05.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/06.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/07.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/08.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/09.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/10.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/11.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/12.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/13.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/14.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/15.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/16.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/17.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/18.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/19.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/20.jpg">
+                    <img class = 'imgSlide' src = "./img/screenshots/21.jpg">
+                    
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+
+            </div>    
+                
+
+            <p id='download-bar'> 
+                <a class="link" target="_blank" href="https://www.youtube.com/watch?v=9Lka7EIONuE&t=4s"> PREVIEW </a>
+                <a class="link" target="_blank" href="https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Windows_1.0.zip" onclick="trackOutboundLink(https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Windows_1.0.zip);"> WINDOWS </a> 
+                <a class="link" target="_blank" href="https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Mac_1.0.zip" onclick="trackOutboundLink(https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Mac_1.0.zip);"> MAC </a> 
+                <a class="link" target="_blank" href="https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Rift_1.0.zip" onclick="trackOutboundLink(https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Rift_1.0.zip);"> RIFT (VR) </a>
+                <a class="link" target="_blank" href="https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Vive_1.0.zip" onclick="trackOutboundLink(https://github.com/GRIIG/IntoTheVoid/releases/download/V1.0/ActionReplay_Vive_1.0.zip);"> VIVE (VR) </a>
+            </p>                               
+            
+            <p id='listen-bar'>
+                <a class="link" target="_blank" href="https://soundcloud.com/griigg/sets/action-replay-out-jan-26"> LISTEN/DOWNLOAD </a>
+            </p>
+                        
+        </div>
+    </div>
+    
+
+    <!-- ACTION REPLAY SCRIPTS -->
+    <script src="../../js/Detector.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.js"></script>
+    <script src="../../js/loaders/OBJLoader.js"></script>
+	<script src="./ActionReplay.js"></script>
+
+</body>
+</html>

@@ -3,7 +3,6 @@
     font-family: SuisseIntl-Regular; 
     src: url('../fonts/SuisseIntl-Regular.woff2') format('woff2'),
          url('../fonts/SuisseIntl-Regular.woff') format('woff'),
-         url('../fonts/SuisseIntl-Regular.ttf') format('ttf');
 }
 
 @font-face {
@@ -16,14 +15,12 @@
     font-family: SuisseIntl-Bold; 
     src: url('../fonts/SuisseIntl-Bold.woff2') format('woff2'),
          url('../fonts/SuisseIntl-Bold.woff') format('woff'),
-         url('../fonts/SuisseIntl-Bold.ttf') format('ttf');
 }        
 
 @font-face {
     font-family: SuisseIntl-Light; 
     src: url('../fonts/SuisseIntl-Light.woff2') format('woff2'),
          url('../fonts/SuisseIntl-Light.woff') format('woff'),
-         url('../fonts/SuisseIntl-Light.ttf') format('ttf');
 }
 
 @font-face {
@@ -32,15 +29,68 @@
          url('../fonts/SuisseIntl-LightItalic.woff') format('woff');
 }
 
+@font-face {
+    font-family: AktivGrotesk-Regular; 
+    src: url('../fonts/AktivGrotesk-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: AktivGrotesk-Italic; 
+    src: url('../fonts/AktivGrotesk-Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: AktivGrotesk-Light; 
+    src: url('../fonts/AktivGrotesk-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: AktivGrotesk-LightItalic; 
+    src: url('../fonts/AktivGrotesk-LightItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: AktivGrotesk-Bold; 
+    src: url('../fonts/AktivGrotesk-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: AktivGrotesk-BoldItalic; 
+    src: url('../fonts/AktivGrotesk-BoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: Adieu-Regular; 
+    src: url('../fonts/Adieu-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: Adieu-RegularSlanted;
+    src: url('../fonts/Adieu-RegularSlanted.woff') format('woff');
+}
+
+@font-face {
+    font-family: Adieu-Bold; 
+    src: url('../fonts/Adieu-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: Adieu-BoldSlanted; 
+    src: url('../fonts/Adieu-BoldSlanted.woff') format('woff');
+}
+
+
 
 /* MENU */        
 body {
-    font-family: Roboto;
-    font-family: SuisseIntl-Regular;
+/*    font-family: Roboto;*/
+    font-family: AktivGrotesk-Regular;
     margin: 0;
     padding:0;
     background-color: #000000;
     color: white;
+    font-size: 15px;
+
 }
 
 #menu {
@@ -65,7 +115,7 @@ body {
 }
 
 h1 {
-    font-family: SuisseIntl-Bold;
+    font-family: AktivGrotesk-Bold;
     display: block;
     font-size: 30px;
     color:white;
