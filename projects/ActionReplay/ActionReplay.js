@@ -124,25 +124,25 @@ function mat(){
 
     textures = {
 
-        "hall1": textureLoader.load ( "/projects/ActionReplay/img/360/360_hall1.jpg"),
+        "hall1": textureLoader.load ( "./img/360/360_hall1.jpg"),
 
-        "hall2": textureLoader.load ( "/projects/ActionReplay/img/360/360_hall2.jpg"),
+        "hall2": textureLoader.load ( "./img/360/360_hall2.jpg"),
 
-        "hall3": textureLoader.load ( "/projects/ActionReplay/img/360/360_hall3.jpg"),
+        "hall3": textureLoader.load ( "./img/360/360_hall3.jpg"),
 
-        "hall4": textureLoader.load ( "/projects/ActionReplay/img/360/360_hall4.jpg"),
+        "hall4": textureLoader.load ( "./img/360/360_hall4.jpg"),
 
-        "controller1": textureLoader.load ( "/projects/ActionReplay/img/360/360_controller1.jpg"),
+        "controller1": textureLoader.load ( "./img/360/360_controller1.jpg"),
 
-        "aku1": textureLoader.load ( "/projects/ActionReplay/img/360/360_aku1.jpg"),
+        "aku1": textureLoader.load ( "./img/360/360_aku1.jpg"),
 
-        "aku2": textureLoader.load ( "/projects/ActionReplay/img/360/360_aku2.jpg"),
+        "aku2": textureLoader.load ( "./img/360/360_aku2.jpg"),
 
-        "xen1": textureLoader.load ( "/projects/ActionReplay/img/360/360_xen1.jpg"),
+        "xen1": textureLoader.load ( "./img/360/360_xen1.jpg"),
 
-        "xen2": textureLoader.load ( "/projects/ActionReplay/img/360/360_xen2.jpg"),
+        "xen2": textureLoader.load ( "./img/360/360_xen2.jpg"),
 
-        "xen3": textureLoader.load ( "/projects/ActionReplay/img/360/360_xen3.jpg")
+        "xen3": textureLoader.load ( "./img/360/360_xen3.jpg")
 
     }
 
@@ -197,7 +197,7 @@ function static(){
     var loader = new THREE.OBJLoader ();
     loader.load ( 
         // Resource URL
-        "/projects/ActionReplay/obj/memorycard.obj", 
+        "./obj/memorycard.obj", 
         //Function when resource is loaded
         function (loadedObject) {
 
@@ -220,7 +220,7 @@ function static(){
     // ---- ADD TEXT  ----
     loader.load ( 
         // Resource URL
-        "/projects/ActionReplay/obj/actionreplayOutline.obj", 
+        "./obj/actionreplayOutline.obj", 
 //                "./obj/actionreplaySrf.obj", 
         //Function when resource is loaded
         function (group) {
